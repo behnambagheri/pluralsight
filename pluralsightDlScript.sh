@@ -7,9 +7,9 @@ rm -rf //home/behnam/pluralsite/
 function MKDIR(){
 if [ -z "$DEFAULT_DIR" ]
 then
-    mkdir $HOME/pluralsite
+    mkdir "$HOME"/pluralsite
 else
-    mkdir $DEFAULT_DIR
+    mkdir "$DEFAULT_DIR"
 fi
 }
 
@@ -21,7 +21,7 @@ unset PASSWORD
 unset LINK
 
 echo -e -n "\nEnter Plural Username: "
-read USERNAME  
+read -r USERNAME
 
 echo -e "\nEnter Plural Password:"
 prompt="password:"
@@ -36,20 +36,20 @@ do
 done
 
 echo -e "\n\nSelect Download Method:\n1)Download Via Link\n2)Download Via List Link"
-read DOWNLOAD_METHOD
+read -r DOWNLOAD_METHOD
 
 }
 
 #Set Socks5 Proxy:
 function PROXY(){
 echo -e -n "\nDo You Want Set Proxy? (y/n):  "
-read PROXY_METHOD
+read -r PROXY_METHOD
 }
 
 #Commands:
 echo -e "\nInsert Download Directory or Press Enter To Continue as Default"
 echo -e "Default Directory is: $HOME/pluralsite"
-read DEFAULT_DIR
+read -r DEFAULT_DIR
 MKDIR
 PROXY
 getData
@@ -58,9 +58,9 @@ getData
 case $PROXY_METHOD in
     y) 
         echo -e -n "\nEnter Proxy Address: "
-        read IP
+        read -r IP
         echo -e -n "\nEnter Proxy Port: "
-        read PORT
+        read -r PORT
         PROXY_ADDR=$IP:$PORT
         export HTTPS_PROXY=$PROXY_ADDR
         export HTTP_PROXY=$PROXY_ADDR
@@ -79,12 +79,12 @@ esac
 case $DOWNLOAD_METHOD in
     1) 
         echo -e "\nEnter Course Link:"
-        read LINK
+        read -r LINK
         youtube-dl --username "$USERNAME" --password "$PASSWORD" -o  "$DEFAULT_DIR/%(playlist)s/%(chapter_number)s - %(chapter)s/%(playlist_index)s - %(title)s.%(ext)s" --sleep-interval 120  --playlist-start 1 --all-subs "$LINK"
     ;;
     2) 
         echo -e "\nEnter Linki List Name:"
-        read LINK
+        read -r LINK
         youtube-dl --username "$USERNAME" --password "$PASSWORD" -o  "$DEFAULT_DIR/%(playlist)s/%(chapter_number)s - %(chapter)s/%(playlist_index)s - %(title)s.%(ext)s" --sleep-interval 120  --playlist-start 1 --all-subs -a "$LINK"
     ;;
 esac
